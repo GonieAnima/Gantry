@@ -47,7 +47,7 @@ void resetGan(){
   pos_x=0;
 }
 
-void move_poss(){
+void mover(){
       if( pos_x <= 0 || pos_x>1600 )
 }
 
@@ -68,4 +68,48 @@ void blink(){
 
 void mtp_x(){
   delay(20);
+}
+
+void receivePositions() {
+  if (Serial.available() > 0) {
+    String input = Serial.readStringUntil('\n');
+    int commaIndex = input.indexOf(',');
+
+    if (commaIndex > 0) {                        //TESTING
+      pos_x_new = input.substring(0, commaIndex).toInt();
+      pos_y_new = input.substring(commaIndex + 1).toInt();
+      Serial.print("Received pos_x_new: ");
+      Serial.println(pos_x_new);
+      Serial.print("Received pos_y_new: ");
+      Serial.println(pos_y_new);
+    }
+  }
+}
+
+void validatePositions() {
+  if (pos_x_new >= 0 && pos_x_new <= 1200 && pos_y_new >= 0 && pos_y_new <= 1600) {
+    Serial.print("Valid positions: pos_x_new = ");
+    Serial.print(pos_x_new);
+    Serial.print(", pos_y_new = ");
+    Serial.println(pos_y_new);
+    // Add your code to handle valid positions here
+  } else {
+    Serial.println("Invalid positions, doing nothing.");
+  }
+}
+
+void moveToPositions() {
+  int steps_x = pos_x_new - pos_x;
+  int steps_y = pos_y_new - pos_y;
+
+  x_stepper.step(steps_x);
+  y_stepper.step(steps_y);
+
+  pos_x = pos_x_new;
+  pos_y = pos_y_new;
+
+  Serial.print("Moved to pos_x = ");
+  Serial.print(pos_x);
+  Serial.print(", pos_y = ");
+  Serial.println(pos_y);
 }
