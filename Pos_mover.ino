@@ -30,6 +30,10 @@ void setup(){
 }
 
 void loop(){
+  receivePositions();
+  validatePositions();
+  moveToPositions();
+
 }
 
 void resetGan(){
@@ -45,10 +49,7 @@ void resetGan(){
   }
   pos_y=0;
   pos_x=0;
-}
-
-void mover(){
-      if( pos_x <= 0 || pos_x>1600 )
+  Serial.println("Ready for orders");
 }
 
 //void test(){
@@ -75,13 +76,22 @@ void receivePositions() {
     String input = Serial.readStringUntil('\n');
     int commaIndex = input.indexOf(',');
 
-    if (commaIndex > 0) {                        //TESTING
+    if (commaIndex > 0 && input.length() > commaIndex + 1) {                        
       pos_x_new = input.substring(0, commaIndex).toInt();
       pos_y_new = input.substring(commaIndex + 1).toInt();
+
+      // Validate received positions to ensure they are within expected ranges
+      if (!isDigit(input.charAt(0)) || !isDigit(input.charAt(commaIndex + 1))) {
+        Serial.println("Invalid input format.");
+        return;
+      }
+
       Serial.print("Received pos_x_new: ");
       Serial.println(pos_x_new);
       Serial.print("Received pos_y_new: ");
       Serial.println(pos_y_new);
+    } else {
+      Serial.println("Invalid input format.");
     }
   }
 }
