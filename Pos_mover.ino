@@ -19,8 +19,8 @@ Stepper x_stepper(steps, 4, 5, 6, 7);   //eje x
 Stepper y_stepper(steps, 8, 9, 10, 11); //eje y
 
 void setup(){
-  x_stepper.setSpeed(30); //rpm
-  y_stepper.setSpeed(30); //rpm
+  x_stepper.setSpeed(100); //rpm
+  y_stepper.setSpeed(100); //rpm
   pinMode(outLight,OUTPUT);
   pinMode(endY,INPUT);
   pinMode(endX,INPUT);
@@ -83,8 +83,7 @@ void receivePositions() {
 
       // Validate received positions to ensure they are within expected ranges
       if (!isDigit(input.charAt(0)) || !isDigit(input.charAt(commaIndex + 1))) {
-        Serial.println("Invalid input format.");
-        return;
+        blink();
       }
 
     } 
