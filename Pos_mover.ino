@@ -49,7 +49,6 @@ void resetGan(){
   }
   pos_y=0;
   pos_x=0;
-  Serial.println("Ready for orders");
 }
 
 //void test(){
@@ -72,7 +71,9 @@ void mtp_x(){
 }
 
 void receivePositions() {
-  if (Serial.available() > 0) {
+  while (Serial.available() == 0) {
+  
+  }
     String input = Serial.readStringUntil('\n');
     int commaIndex = input.indexOf(',');
 
@@ -86,25 +87,17 @@ void receivePositions() {
         return;
       }
 
-      Serial.print("Received pos_x_new: ");
-      Serial.println(pos_x_new);
-      Serial.print("Received pos_y_new: ");
-      Serial.println(pos_y_new);
-    } else {
-      Serial.println("Invalid input format.");
+    } 
+    else {
     }
-  }
 }
 
 void validatePositions() {
   if (pos_x_new >= 0 && pos_x_new <= 1200 && pos_y_new >= 0 && pos_y_new <= 1600) {
-    Serial.print("Valid positions: pos_x_new = ");
-    Serial.print(pos_x_new);
-    Serial.print(", pos_y_new = ");
-    Serial.println(pos_y_new);
+
     // Add your code to handle valid positions here
   } else {
-    Serial.println("Invalid positions, doing nothing.");
+
   }
 }
 
@@ -118,8 +111,4 @@ void moveToPositions() {
   pos_x = pos_x_new;
   pos_y = pos_y_new;
 
-  Serial.print("Moved to pos_x = ");
-  Serial.print(pos_x);
-  Serial.print(", pos_y = ");
-  Serial.println(pos_y);
 }
