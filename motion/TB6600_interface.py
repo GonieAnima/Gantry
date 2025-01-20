@@ -32,11 +32,11 @@ class Stepper():
             time.sleep(self.delay_per_step/2)
         
 if __name__ == '__main__':
+    GPIO.setmode(GPIO.BOARD)
+    motor1 = Stepper(11, 13, 200)
+    motor1.setSpeed(200)
     while True:
         try:
-            GPIO.setmode(GPIO.BOARD)
-            motor1 = Stepper(11, 13, 200)
-            motor1.setSpeed(200)
             user = int(input("Enter number of steps: "))
             motor1.step(user)
         except KeyboardInterrupt:
