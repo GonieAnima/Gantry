@@ -17,7 +17,7 @@ if __name__ == '__main__':
             GPIO.setmode(GPIO.BOARD)
             x_stepper = Stepper(11, 13, 200)
             y_stepper = Stepper(15, 16, 200)
-            posLocate()
+            posLocate(18, 22)
         except KeyboardInterrupt:
             print("Exiting")
             break
